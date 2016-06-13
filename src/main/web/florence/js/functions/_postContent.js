@@ -29,26 +29,29 @@ function postContent(collectionId, path, content, overwriteExisting, recursive, 
 
     var url = url + '&overwriteExisting=' + overwriteExisting;
     var url = url + '&recursive=' + recursive;
+    
+    // Send to the service worker to POST when a network connection is available
+    syncContent(url, content);
 
-    $.ajax({
-        url: url,
-        dataType: 'json',
-        contentType: 'application/json',
-        type: 'POST',
-        data: content,
-        success: function (response) {
-            addLocalPostResponse(response);
-            success(response);
-        },
-        error: function (response) {
-            addLocalPostResponse(response);
-            if (error) {
-                error(response);
-            } else {
-                handleApiError(response);
-            }
-        }
-    });
+    // $.ajax({
+    //     url: url,
+    //     dataType: 'json',
+    //     contentType: 'application/json',
+    //     type: 'POST',
+    //     data: content,
+    //     success: function (response) {
+    //         addLocalPostResponse(response);
+    //         success(response);
+    //     },
+    //     error: function (response) {
+    //         addLocalPostResponse(response);
+    //         if (error) {
+    //             error(response);
+    //         } else {
+    //             handleApiError(response);
+    //         }
+    //     }
+    // });
 }
 
 function postToLocalStorage(collectionId, path, content) {

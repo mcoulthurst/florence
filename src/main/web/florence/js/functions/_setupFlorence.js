@@ -233,7 +233,32 @@ function setupFlorence() {
             pagePath: Florence.globalVars.pagePath
         };
 
-        console.log("Click event", clickEvent);
+        // console.log("Click event", clickEvent);
+    });
+
+
+    /* Register our servicer worker - used for background sync */
+    if ('serviceWorker' in navigator) {
+        // Register our service worker
+        navigator.serviceWorker.register('/florence/service-worker.js').then(function (registration) {
+            console.log("Service worker registered: ", registration);
+        }).catch(function (err) {
+            console.log("Service worker registration error: ", err);
+        });
+    }
+
+    // Uncomment if you want to check the SW events are firing correctly
+    // console.log('Started', self);
+    self.addEventListener('install', function(event) {
+        self.skipWaiting();
+        // console.log('Installed', event);
+    });
+    self.addEventListener('activate', function(event) {
+        // console.log('Activated', event);
+    });
+    self.addEventListener('push', function(event) {
+        console.log('Push message received', event);
+        // console.log('Message', event);
     });
 
 }
