@@ -5,7 +5,7 @@
  **/
 
 // Request a sync with zebedee
-function syncContent(url, data) {
+function syncContent(url, data, syncRegistered) {
     var update = {"url": url, "data": data};
     var storageLength = 0;
 
@@ -14,11 +14,12 @@ function syncContent(url, data) {
         storageLength = value;
 
         // Add to offline local storage for service worker to access to POST
-        localforage.setItem('update' + (storageLength+1), update);
+        localforage.setItem((storageLength+1).toString(), update);
 
         // Register a new sync to Zebedee
         navigator.serviceWorker.ready.then(function(registration) {
             registration.sync.register('postToApi').then(function() {
+                syncRegistered(true);
                 console.log('Sync registered');
             });
         });

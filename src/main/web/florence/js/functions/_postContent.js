@@ -31,7 +31,15 @@ function postContent(collectionId, path, content, overwriteExisting, recursive, 
     var url = url + '&recursive=' + recursive;
     
     // Send to the service worker to POST when a network connection is available
-    syncContent(url, content);
+    syncContent(url, content,
+        function(syncRegistered) {
+            if (syncRegistered) {
+                success();
+            } else {
+                error();
+            }
+        }
+    );
 
     // $.ajax({
     //     url: url,
@@ -60,7 +68,7 @@ function postToLocalStorage(collectionId, path, content) {
     var newPath = path;
     var newContent = JSON.parse(content);
 
-    console.log(newContent);
+    // console.log(newContent);
     
     var localBackup = localStorage.getItem('localBackup');
 

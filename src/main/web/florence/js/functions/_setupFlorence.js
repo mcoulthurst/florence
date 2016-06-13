@@ -241,7 +241,8 @@ function setupFlorence() {
     if ('serviceWorker' in navigator) {
         // Register our service worker
         navigator.serviceWorker.register('/florence/service-worker.js').then(function (registration) {
-            console.log("Service worker registered: ", registration);
+            // console.log("Service worker registered: ", registration);
+            registration.update();
         }).catch(function (err) {
             console.log("Service worker registration error: ", err);
         });

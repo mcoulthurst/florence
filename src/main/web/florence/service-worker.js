@@ -1,32 +1,30 @@
-
-
 // Import localforage for getting information to do POST - ordinary localStorage doesn't work in service workers
 importScripts('/florence/js/third-party/localforage.min.js');
 
 // Post content
 function attemptPostContent() {
     new Promise(function(resolve, reject) {
-        var storageLength = 0;
-        console.log(storageLength);
-        localforage.length().then(function(value) {
-            storageLength = value;
-            console.log(storageLength);
-
-            for (var i = 0; i < storageLength; i++) {
-                localforage.getItem('update' + i).then(function(response) {
-                    fetch(response.url, {
-                        method: 'post',
-                        credentials: 'include',
-                        body: JSON.stringify(response.data)
-                    }).then(function(response) {
-                        console.log("Success :)");
-                        resolve(response);
-                    }).catch(function(err) {
-                        console.log("Error :(");
-                        reject(err);
-                    });
-                });
-            }
+        localforage.iterate(function(value) {
+            fetch(value.url, {
+                method: 'POST',
+                credentials: 'include',
+                body: value.data,
+                headers: new Headers({
+                    'Content-Type': 'application/json;charset=utf-8'
+                })
+            }).then(function(response) {
+                // console.log("Zebedee response: ", response);
+                if (response.status === 200) {
+                    console.log("Successful post, clear localForage");
+                    localforage.clear();
+                } else {
+                    console.log("Post failed: ", response);
+                }
+                resolve(response);
+            }).catch(function(err) {
+                console.log("Error :(");
+                reject(err);
+            });
         });
     });
 }
@@ -35,6 +33,5 @@ function attemptPostContent() {
 self.addEventListener('sync', function(event) {
     if (event.tag == 'postToApi') {
         event.waitUntil(attemptPostContent());
-        console.log('aarrgghhh');
     }
 });
