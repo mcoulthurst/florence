@@ -33,13 +33,6 @@ function refreshMarkdownContentAccordionSection (collectionId, data, field, idFi
 
 function initialiseMarkdownContentAccordionSection(collectionId, data, field, idField) {
 
-  // for each entry in the list
-  function debugLogAccordionSection() {
-    for (var i = 0; i < data[field].length; i++) {
-      console.log(data[field][i].title)
-    }
-  }
-
   $(data[field]).each(function(index){
 
     $('#' + idField +'-title_' + index).on('input', function () {
@@ -106,35 +99,8 @@ function initialiseMarkdownContentAccordionSection(collectionId, data, field, id
     saveContentThenRefreshSection(collectionId, data.uri, data, field, idField);
   });
 
-  function sortable() {
-
-    var sortableStartPosition;
-
-    $('#sortable-' + idField).sortable({
-      start: function(event, ui) {
-
-        // remember the index of the item at the start of drag + drop
-        sortableStartPosition = ui.item.index();
-        //console.log("sortable start: " + sortableStartPosition);
-      },
-      stop: function(event, ui){
-
-        // determine the new index of the item after being dropped.
-        var sortableEndPosition =  ui.item.index();
-        //console.log("sortable update: Start: " + sortableStartPosition + " now: " + sortableEndPosition) ;
-
-        var sectionsArray = data[field];
-        var item = data[field][sortableStartPosition];
-
-        // Move the item from the start drag position to the end drop position in the data model.
-        sectionsArray.splice(sortableStartPosition, 1);
-        sectionsArray.splice(sortableEndPosition, 0, item);
-
-        saveContentThenRefreshSection (collectionId, data.uri, data, field, idField);
-      }
-    });
-  }
-  sortable();
+  // Bind events to happen when a sortable item is moved
+  bindSortableItems(data, field, idField);
 
   function saveContentThenRefreshSection (collectionId, path, data, field, idField) {
     putContent(collectionId, path, JSON.stringify(data),

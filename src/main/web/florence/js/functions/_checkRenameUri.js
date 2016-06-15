@@ -38,7 +38,6 @@ function checkRenameUri(collectionId, data, renameUri, onSave) {
                 getPageData(collectionId, newUri, function (pageData) { // get the updated data after doing the move.
                         data = pageData;
                         Florence.globalVars.pagePath = newUri;
-                        ;
                         onSave(collectionId, newUri, JSON.stringify(data));
                     },
                     onError = function () {
@@ -110,6 +109,8 @@ function checkRenameUri(collectionId, data, renameUri, onSave) {
                         data = pageData;
 
                         Florence.globalVars.pagePath = newUri;
+
+
                         //if it is a dataset rename children array
                         //take this out if moveContent in Zebedee works
                         if (data.type === 'dataset_landing_page') {

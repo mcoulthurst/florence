@@ -154,16 +154,17 @@ function bulletinEditor(collectionId, data) {
         });
         data.images = newImage;
         // External links
-        var orderLink = $("#sortable-link").sortable('toArray');
-        $(orderLink).each(function (indexL, nameL) {
-            var displayText = data.links[parseInt(nameL)].title;
-            var link = $('#link-uri_' + nameL).val();
-            newLinks[indexL] = {uri: link, title: displayText};
-        });
-        data.links = newLinks;
+        // var orderLink = $("#sortable-link").sortable('toArray');
+        // $(orderLink).each(function (indexL, nameL) {
+        //     var displayText = data.links[parseInt(nameL)].title;
+        //     var link = data.links[parseInt(nameL)].uri;
+        //     newLinks[indexL] = {uri: link, title: displayText};
+        // });
+        // data.links = newLinks;
         // Files are uploaded. Save metadata
         var orderFile = $("#sortable-pdf").sortable('toArray');
         $(orderFile).each(function (indexF, nameF) {
+            console.log(data.pdfTable);
             var title = $('#pdf-title_' + nameF).val();
             var file = data.pdfTable[parseInt(nameF)].file;
             newFiles[indexF] = {title: title, file: file};
