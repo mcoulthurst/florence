@@ -1,6 +1,4 @@
 function bulletinEditor(collectionId, data) {
-
-    var newChart = [], newTable = [], newImage = [], newLinks = [], newFiles = [];
     var setActiveTab, getActiveTab;
     var renameUri = false;
 
@@ -124,7 +122,7 @@ function bulletinEditor(collectionId, data) {
         save(saveAndReviewContent);
     });
 
-    
+
     function save(onSave) {
         Florence.globalVars.pagePos = $(".workspace-edit").scrollTop();
         checkRenameUri(collectionId, data, renameUri, onSave);
