@@ -95,10 +95,4 @@ function initialiseTablesList(collectionId, data) {
             });
         });
     });
-    // Make sections sortable
-    function sortable() {
-        $('#sortable-table').sortable();
-    }
-
-    sortable();
 }

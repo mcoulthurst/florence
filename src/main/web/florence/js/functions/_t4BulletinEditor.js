@@ -101,6 +101,11 @@ function bulletinEditor(collectionId, data) {
         data.description.nationalStatistic = $("#metadata-list input[type='checkbox']").prop('checked') ? true : false;
     });
 
+    // Update data when PDF title is updated
+    $('#pdf').on('input', '#pdf-title_0', function(e) {
+        data.pdfTable[0].title = $(e.target).val();
+    });
+
     // Save
     var editNav = $('.edit-nav');
     editNav.off(); // remove any existing event handlers.
@@ -119,58 +124,9 @@ function bulletinEditor(collectionId, data) {
         save(saveAndReviewContent);
     });
 
+    
     function save(onSave) {
-
         Florence.globalVars.pagePos = $(".workspace-edit").scrollTop();
-
-        // charts
-        var orderChart = $("#sortable-chart").sortable('toArray');
-        $(orderChart).each(function (indexCh, nameCh) {
-            var uri = data.charts[parseInt(nameCh)].uri;
-            var title = data.charts[parseInt(nameCh)].title;
-            var filename = data.charts[parseInt(nameCh)].filename;
-            var safeUri = checkPathSlashes(uri);
-            newChart[indexCh] = {uri: safeUri, title: title, filename: filename};
-        });
-        data.charts = newChart;
-        // tables
-        var orderTable = $("#sortable-table").sortable('toArray');
-        $(orderTable).each(function (indexTable, nameTable) {
-            var uri = data.tables[parseInt(nameTable)].uri;
-            var title = data.tables[parseInt(nameTable)].title;
-            var filename = data.tables[parseInt(nameTable)].filename;
-            var safeUri = checkPathSlashes(uri);
-            newTable[indexTable] = {uri: safeUri, title: title, filename: filename};
-        });
-        data.tables = newTable;
-        // images
-        var orderImage = $("#sortable-image").sortable('toArray');
-        $(orderImage).each(function (indexImage, nameImage) {
-            var uri = data.images[parseInt(nameImage)].uri;
-            var title = data.images[parseInt(nameImage)].title;
-            var filename = data.images[parseInt(nameImage)].filename;
-            var safeUri = checkPathSlashes(uri);
-            newImage[indexImage] = {uri: safeUri, title: title, filename: filename};
-        });
-        data.images = newImage;
-        // External links
-        // var orderLink = $("#sortable-link").sortable('toArray');
-        // $(orderLink).each(function (indexL, nameL) {
-        //     var displayText = data.links[parseInt(nameL)].title;
-        //     var link = data.links[parseInt(nameL)].uri;
-        //     newLinks[indexL] = {uri: link, title: displayText};
-        // });
-        // data.links = newLinks;
-        // Files are uploaded. Save metadata
-        var orderFile = $("#sortable-pdf").sortable('toArray');
-        $(orderFile).each(function (indexF, nameF) {
-            console.log(data.pdfTable);
-            var title = $('#pdf-title_' + nameF).val();
-            var file = data.pdfTable[parseInt(nameF)].file;
-            newFiles[indexF] = {title: title, file: file};
-        });
-        data.pdfTable = newFiles;
-
         checkRenameUri(collectionId, data, renameUri, onSave);
     }
 }

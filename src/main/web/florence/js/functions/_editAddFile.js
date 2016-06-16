@@ -25,7 +25,6 @@ function addFile(collectionId, data, field, idField) {
     var dataTemplate = {list: list, idField: idField, header: header, button: button};
     var html = templates.editorDownloads(dataTemplate);
     $('#' + idField).replaceWith(html);
-    var uriUpload;
 
     $(".workspace-edit").scrollTop(Florence.globalVars.pagePos);
 
@@ -78,30 +77,6 @@ function addFile(collectionId, data, field, idField) {
         }
     });
 
-    $(function () {
-        $('.add-tooltip').tooltip({
-            items: '.add-tooltip',
-            content: 'Type title here and click Save to add it to the page',
-            show: "slideDown", // show immediately
-            open: function (event, ui) {
-                ui.tooltip.hover(
-                    function () {
-                        $(this).fadeTo("slow", 0.5);
-                    });
-            }
-        });
-    });
-
-    function sortable() {
-        $('#sortable-' + idField).sortable({
-            stop: function () {
-                $('#' + idField + ' .edit-section__sortable-item--counter').each(function (index) {
-                    $(this).empty().append(index + 1);
-                });
-            }
-        });
-    }
-
-    sortable();
+    bindSortableItems(data, field, idField);
 }
 

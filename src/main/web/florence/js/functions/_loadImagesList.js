@@ -16,8 +16,18 @@ function initialiseImagesList(collectionId, data) {
 
     $('#add-image').click(function () {
         loadImageBuilder(data, function () {
-            Florence.Editor.isDirty = false;
-            refreshImagesList(collectionId, data);
+            // Florence.Editor.isDirty = false;
+            // refreshImagesList(collectionId, data);
+            putContent(collectionId, data.uri, JSON.stringify(data),
+                success = function () {
+                    Florence.Editor.isDirty = false;
+                    refreshPreview();
+                    refreshImagesList(collectionId, data);
+                },
+                error = function (response) {
+                    handleApiError(response);
+                }
+            );
         });
     });
 
@@ -30,9 +40,19 @@ function initialiseImagesList(collectionId, data) {
             getPageResource(collectionId, imageJson,
                 onSuccess = function (imageData) {
                     loadImageBuilder(data, function () {
-                        Florence.Editor.isDirty = false;
-                        //refreshPreview();
-                        refreshImagesList(collectionId, data);
+                        // Florence.Editor.isDirty = false;
+                        // refreshPreview();
+                        // refreshImagesList(collectionId, data);
+                        putContent(collectionId, basePath, JSON.stringify(data),
+                            success = function () {
+                                Florence.Editor.isDirty = false;
+                                refreshPreview();
+                                refreshImagesList(collectionId, data);
+                            },
+                            error = function (response) {
+                                handleApiError(response);
+                            }
+                        );
                     }, imageData);
                 }
             );
@@ -103,10 +123,4 @@ function initialiseImagesList(collectionId, data) {
             });
         });
     });
-    // Make sections sortable
-    function sortable() {
-        $('#sortable-image').sortable();
-    }
-
-    sortable();
 }

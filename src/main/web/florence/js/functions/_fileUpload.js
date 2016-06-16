@@ -29,7 +29,7 @@ function uploadFile(collectionId, data, field, idField, lastIndex, downloadExten
         document.getElementById("response").innerHTML = "Uploading . . .";
 
         var fileNameNoSpace = file.name.replace(/[^a-zA-Z0-9\.]/g, "").toLowerCase();
-        uriUpload = data.uri + "/" + fileNameNoSpace;
+        var uriUpload = data.uri + "/" + fileNameNoSpace;
         var safeUriUpload = checkPathSlashes(uriUpload);
 
         if (data[field] && data[field].length > 0) {

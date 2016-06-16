@@ -78,7 +78,7 @@ function loadChartBuilder(pageData, onSave, chart) {
                     pageData.charts = [];
                 }
 
-                existingChart = _.find(pageData.charts, function (existingChart) {
+                var existingChart = _.find(pageData.charts, function (existingChart) {
                     return existingChart.filename === chart.filename;
                 });
 

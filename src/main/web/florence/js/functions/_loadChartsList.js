@@ -98,12 +98,6 @@ function initialiseChartList(collectionId, data) {
             });
         });
     });
-    // Make sections sortable
-    function sortable() {
-        $('#sortable-chart').sortable();
-    }
-
-    sortable();
 }
 
 
